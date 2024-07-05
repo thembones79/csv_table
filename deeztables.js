@@ -17,19 +17,19 @@ const getCells = (row) => row.split(',')
 const renderHeader = (cells) => {
     const columns = getCells(cells)
         .map((c) => `<th>${c}</th>`)
-        .join(',')
+        .join('')
     return `<thead><tr>${columns}</tr></thrad>`
 }
 
 const renderRow = (cells) => {
     const columns = getCells(cells)
-        .map((c) => `<td>${c}</td>`)
-        .join(',')
+        .map((c) => `<td><input placeholder="${c}" value="${c}" /></td>`)
+        .join('')
     return `<tr>${columns}</tr>`
 }
 
 const renderTableBody = (rows) =>
-    `<tbody>${rows.map((r) => renderRow(r)).join(',')}</tbody>`
+    `<tbody>${rows.map((r) => renderRow(r)).join('')}</tbody>`
 
 const renderTable = (csv) => {
     const [headerRow, ...dataRows] = getRows(csv)
