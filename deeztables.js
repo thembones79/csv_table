@@ -23,7 +23,10 @@ const renderHeader = (cells) => {
 
 const renderRow = (cells) => {
     const columns = getCells(cells)
-        .map((c) => `<td><input placeholder="${c}" value="${c}" /></td>`)
+        .map(
+            (c) =>
+                `<td><input placeholder="${c}" value="${c}" onchange="checkMeDaddy(this)" /></td>`
+        )
         .join('')
     return `<tr>${columns}</tr>`
 }
@@ -36,4 +39,12 @@ const renderTable = (csv) => {
     const header = renderHeader(headerRow)
     const body = renderTableBody(dataRows)
     return `<table>${header}${body}</table>`
+}
+
+function checkMeDaddy({ placeholder, value, style }) {
+    if (placeholder === value) {
+        style.borderColor = ''
+    } else {
+        style.borderColor = 'red'
+    }
 }
