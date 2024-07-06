@@ -1,0 +1,11 @@
+.diff-values {
+    border-color: red;
+    color: red;
+}
+
+tr:has(.diff-values) {
+    background-color: pink;
+    box-shadow:
+        pink 0px 2px 4px 0px,
+        pink 0px 2px 16px 0px;
+}

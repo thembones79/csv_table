@@ -41,10 +41,10 @@ const renderTable = (csv) => {
     return `<table>${header}${body}</table>`
 }
 
-function checkMeDaddy({ placeholder, value, style }) {
+function checkMeDaddy({ placeholder, value, classList }) {
     if (placeholder === value) {
-        style.borderColor = ''
+        classList.remove('diff-values')
     } else {
-        style.borderColor = 'red'
+        classList.add('diff-values')
     }
 }
