@@ -25,7 +25,7 @@ const renderRow = (cells) => {
     const columns = getCells(cells)
         .map(
             (c) =>
-                `<td><input placeholder="${c}" value="${c}" onchange="checkMeDaddy(this)" /></td>`
+                `<td><abbr title="${c}"><input placeholder="${c}" value="${c}" onchange="checkMeDaddy(this)" /></abbr></td>`
         )
         .join('')
     return `<tr>${columns}</tr>`
