@@ -38,7 +38,7 @@ const renderTable = (csv) => {
     const [headerRow, ...dataRows] = getRows(csv)
     const header = renderHeader(headerRow)
     const body = renderTableBody(dataRows)
-    return `<table>${header}${body}</table>`
+    return `<div class="table-container"><table>${header}${body}</table></div><div class="footer"><button onclick="console.log(this)">Save</button></div>`
 }
 
 function checkMeDaddy({ placeholder, value, classList }) {
