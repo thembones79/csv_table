@@ -48,3 +48,27 @@ function checkMeDaddy({ placeholder, value, classList }) {
         classList.add('diff-values')
     }
 }
+
+const createHeader = (data) => {
+    const cols = Object.keys(data[0]);
+    console.log({cols});
+}
+
+async function getData() {
+    const url = '/ligma-deez.json'
+    try {
+        const response = await fetch(url)
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`)
+        }
+
+        const json = await response.json()
+        console.log(json)
+        createHeader(json);
+    } catch (error) {
+        console.error(error.message)
+    }
+}
+
+
+window.onload = getData;
