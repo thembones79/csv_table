@@ -50,8 +50,8 @@ function checkMeDaddy({ placeholder, value, classList }) {
 }
 
 const createHeader = (data) => {
-    const cols = Object.keys(data[0]);
-    console.log({cols});
+    const cols = Object.keys(data[0])
+    console.log({ cols })
 }
 
 async function getData() {
@@ -64,11 +64,10 @@ async function getData() {
 
         const json = await response.json()
         console.log(json)
-        createHeader(json);
+        createHeader(json)
     } catch (error) {
         console.error(error.message)
     }
 }
 
-
-window.onload = getData;
+window.onload = getData
