@@ -1,44 +1,28 @@
-function loadFile(o) {
-    const fr = new FileReader()
-    fr.readAsText(o.files[0])
-    fr.onload = function (e) {
-        showDataFile(e)
-    }
+const renderTable = (data) => {
+    const cols = getColumns(data)
+    const header = renderHeader(cols)
+    const body = renderTableBody({ data, cols })
+    return `<div class="table-container"><table>${header}${body}</table></div><div class="footer"><button class="btn" onclick="onSave(this)">Save</button></div>`
 }
 
-const showDataFile = (e) => {
-    const csv = e.target.result
-    document.getElementById('root').outerHTML = renderTable(csv)
+const getColumns = (data) => Object.keys(data[0])
+
+const renderHeader = (cols) => {
+    const columns = cols.map((c) => `<th>${c}</th>`).join('')
+    return `<thead><tr>${columns}</tr></thead>`
 }
 
-const getRows = (csv) => csv.split('\n')
-const getCells = (row) => row.split(',')
+const renderTableBody = ({ data, cols }) =>
+    `<tbody>${data.map((row) => renderRow({ row, cols })).join('')}</tbody>`
 
-const renderHeader = (cells) => {
-    const columns = getCells(cells)
-        .map((c) => `<th>${c}</th>`)
-        .join('')
-    return `<thead><tr>${columns}</tr></thrad>`
-}
-
-const renderRow = (cells) => {
-    const columns = getCells(cells)
+const renderRow = ({ row, cols }) => {
+    const columns = cols
         .map(
             (c) =>
-                `<td><abbr title="${c}"><input placeholder="${c}" value="${c}" onchange="checkMeDaddy(this)" /></abbr></td>`
+                `<td><input placeholder="${row[c]}" title="${row[c]}" value="${row[c]}" onchange="checkMeDaddy(this)" /></td>`
         )
         .join('')
     return `<tr>${columns}</tr>`
-}
-
-const renderTableBody = (rows) =>
-    `<tbody>${rows.map((r) => renderRow(r)).join('')}</tbody>`
-
-const renderTable = (csv) => {
-    const [headerRow, ...dataRows] = getRows(csv)
-    const header = renderHeader(headerRow)
-    const body = renderTableBody(dataRows)
-    return `<div class="table-container"><table>${header}${body}</table></div><div class="footer"><button onclick="console.log(this)">Save</button></div>`
 }
 
 function checkMeDaddy({ placeholder, value, classList }) {
@@ -46,12 +30,8 @@ function checkMeDaddy({ placeholder, value, classList }) {
         classList.remove('diff-values')
     } else {
         classList.add('diff-values')
+        document.querySelector('button.btn').innerText = 'Save'
     }
-}
-
-const createHeader = (data) => {
-    const cols = Object.keys(data[0])
-    console.log({ cols })
 }
 
 async function getData() {
@@ -62,12 +42,22 @@ async function getData() {
             throw new Error(`Response status: ${response.status}`)
         }
 
-        const json = await response.json()
-        console.log(json)
-        createHeader(json)
+        const data = await response.json()
+        return data
     } catch (error) {
         console.error(error.message)
     }
 }
 
-window.onload = getData
+const onSave = async (btn) => {
+    console.log(btn)
+    btn.innerText = 'Data was saved'
+}
+
+const onLoad = async () => {
+    const data = await getData()
+    const table = renderTable(data)
+    document.getElementById('root').outerHTML = table
+}
+
+window.onload = onLoad
