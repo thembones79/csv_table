@@ -29,7 +29,7 @@ function checkMeDaddy({ placeholder, value, classList }) {
     const B = placeholder
     const D = value
 
-    if (B === D  ) {
+    if (B===D  ) {
         classList.remove('diff-values')
     } else {
         classList.add('diff-values')
