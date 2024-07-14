@@ -9,3 +9,28 @@ tr:has(.diff-values) {
         pink 0px 2px 4px 0px,
         pink 0px 2px 16px 0px;
 }
+.table-container {
+    overflow: auto;
+    max-width: 99vw;
+    max-height: 80vh;
+    max-height: calc(100vh - 160px);
+    position: relative;
+}
+
+thead th {
+    background-color: #dddddd;
+    position: sticky;
+    top: 0;
+}
+
+tbody th {
+    position: sticky;
+    left: 0;
+}
+tabler {
+    border-collapse: collapse;
+}
+
+.footer{
+    padding-top: 20px;
+}
