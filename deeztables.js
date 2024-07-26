@@ -1,7 +1,8 @@
 const renderTable = (data) => {
     const cols = getColumns(data)
     const header = renderHeader(cols)
-    const body = renderEmptyTableBody({ data, cols })
+    // const body = renderEmptyTableBody({ data, cols })
+    const body = renderTableBody({ data, cols })
     return `<div class="table-container"><table>${header}${body}</table></div><div class="footer"><button class="btn" onclick="onSave(this)">Save</button></div>`
 }
 
@@ -24,17 +25,12 @@ const renderRow = ({ row, cols }) => {
                 `<td><input placeholder="${row[c]}" title="${row[c]}" value="${row[c]}" onchange="checkMeDaddy(this)" /></td>`
         )
         .join('')
-    return `${columns}`
+    return `<tr>${columns}</tr>`
 }
 
 const addRows = async (data) => {
     const tBody = document.querySelector('tbody')
     const cols = getColumns(data)
-    function delayedValue(time, value) {
-        return new Promise((resolve /*, reject*/) => {
-            setTimeout(() => resolve(value), time)
-        })
-    }
 
     async function* generateSequence(data) {
         for (let i = 0; i < data.length; i++) {
@@ -49,28 +45,13 @@ const addRows = async (data) => {
         }
     }
 
-    ;(async () => {
+    const start = async () => {
         let generator = generateSequence(data)
         for await (let value of generator) {
             tBody.appendChild(value)
         }
-    })()
-
-    // const pro = async (i) => {
-    //     return new Promise((resolve) => {
-    //         const row = data[i]
-    //         const tr = document.createElement('tr')
-    //         const r = renderRow({ row, cols })
-    //         tr.innerHTML = r
-    //         // tBody.appendChild(tr)
-    //         resolve(tr)
-    //         return tr
-    //     })
-    // }
-    // for (let i = 0; i < data.length; i++) {
-    //     const tr = await pro(i)
-    //     tBody.appendChild(tr)
-    // }
+    }
+    await start()
 }
 
 function checkMeDaddy({ placeholder, value, classList }) {
@@ -104,9 +85,9 @@ const onSave = async (btn) => {
 
 const onLoad = async () => {
     const data = await getData()
-    const table = renderTable(data)
+    const table = renderTable(data.slice(1, 100))
     document.getElementById('root').outerHTML = table
-    addRows(data)
+    // addRows(data)
 }
 
 window.onload = onLoad
